@@ -12,4 +12,18 @@ resource "aws_instance" "db" {
         command = "ansible-playbook -i private_ips.txt web.yml"
         # This will run the ansible playbook on the private IP of the instance
     }
+    connection {
+        type        = "ssh"
+        user        = "ec2-user"
+        password    = "DevOps321"
+        host        = self.public_ip
+    }
+    provisioner "remote-exec" {
+        inline = [
+            "sudo dnf  install git -y",
+            "sudo dnf install ansible -y",
+            "sudo dnf install nginx -y",
+            "sudo systemctl start nginx",
+        ]
+    }
 }
