@@ -3,6 +3,7 @@ resource "aws_instance" "db" {
     instance_type          = "t2.micro"
     vpc_security_group_ids = ["sg-006bc654442a8a0cc"]
 
+    # provisioner will only run once when the instance is created and not when it is destroyed or updated
     provisioner "local-exec" {
         command = "echo ${aws_instance.db.public_ip} >> private_ips.txt"
         # This will write the private IP of the instance to a file
